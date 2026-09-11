@@ -31,9 +31,9 @@ jobs:
 
       - name: Run Linter (Flake8)
         run: |
-          flake8 tests/
+          flake8 tests/ --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
 
-      - name: Run PyTest with Allure
+      - name: Run PyTest with Allure & HTML Reports
         run: |
           mkdir -p reports/screenshots
           python -m pytest tests/specs \
@@ -43,11 +43,11 @@ jobs:
             --self-contained-html
 
       - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@v1.9
+        uses: mgrybyk/allure-report-branch@v1.6.2
         if: always()
         with:
           allure_results: allure-results
-          allure_history: allure-history
+          allure_report: allure-report
 
       - name: Upload reports
         if: always()
@@ -56,4 +56,5 @@ jobs:
           name: automation-reports
           path: |
             reports/
+            allure-report/
             allure-results/
