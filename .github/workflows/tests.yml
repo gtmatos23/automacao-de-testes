@@ -41,19 +41,24 @@ jobs:
             --alluredir=allure-results \
             --self-contained-html
 
-      - name: Generate Allure Report
-        uses: mgrybyk/allure-report-branch@v1.6.2
+      - name: Install Allure CLI
         if: always()
-        with:
-          allure_results: allure-results
-          allure_report: allure-report
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-11-jre
+          wget https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+          tar -zxvf allure-2.24.0.tgz
+          sudo mv allure-2.24.0 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      - name: Generate Allure HTML Report
+        if: always()
+        run: |
+          allure generate allure-results --clean -o reports/allure-report
 
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: automation-reports
-          path: |
-            reports/
-            allure-report/
-            allure-results/
+          path: reports/
