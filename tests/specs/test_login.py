@@ -7,5 +7,5 @@ from tests.transactions.authentication import LoginTransaction
 def test_login_saucedemo_sucesso(driver):
     LoginTransaction(driver).login()
 
-    assert "pagina-que-nao-existe.html" in driver.current_url
+    assert "inventory.html" in driver.current_url
     assert InventoryPage(driver).is_loaded()
