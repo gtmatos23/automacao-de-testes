@@ -1,2 +1,5 @@
+import os
+
 class Settings:
-    pass
+    def __init__(self):
+        self.base_url = os.getenv("BASE_URL", "https://www.saucedemo.com/")

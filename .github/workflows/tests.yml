@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
   release:
-    types: [ published ]
+    types: [ published ]  # Dispara a pipeline ao gerar uma Release oficial
 
 jobs:
   test:
