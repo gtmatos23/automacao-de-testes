@@ -1,7 +1,8 @@
+import os
+import tempfile
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import pytest
-import tempfile
 
 
 @pytest.fixture
@@ -15,6 +16,15 @@ def driver():
 
 def create_driver():
     chrome_options = Options()
+
+    # Identifica se está rodando no GitHub Actions ou em ambiente CI
+    is_ci = os.getenv("CI") == "true" or os.getenv("GITHUB_ACTIONS") == "true"
+
+    if is_ci:
+        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--window-size=1920,1080")
 
     # Perfil limpo e isolado
     user_data_dir = tempfile.mkdtemp()
@@ -40,7 +50,8 @@ def create_driver():
 
     driver = webdriver.Chrome(options=chrome_options)
 
-    driver.maximize_window()
+    if not is_ci:
+        driver.maximize_window()
 
     return driver
 
