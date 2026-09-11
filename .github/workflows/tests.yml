@@ -35,7 +35,7 @@ jobs:
       - name: Run Behave tests
         run: |
           mkdir -p reports
-          behave -f junit -o reports/
+          behave --junit --junit-directory=reports/
 
       - name: Upload reports
         if: always()
