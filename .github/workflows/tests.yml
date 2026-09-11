@@ -36,8 +36,7 @@ jobs:
           python -m pytest tests/specs \
             --html=reports/report.html \
             --junitxml=reports/results.xml \
-            --self-contained-html \
-            -m smoke
+            --self-contained-html
 
       - name: Upload reports
         if: always()
