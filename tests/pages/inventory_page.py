@@ -16,11 +16,20 @@ class InventoryPage(BasePage):
     PRODUCT_NAMES = (By.CLASS_NAME, "inventory_item_name")
     PRODUCT_PRICES = (By.CLASS_NAME, "inventory_item_price")
 
+    def _product_button(self, product_id, action):
+        return By.ID, f"{action}-to-cart-{product_id}"
+
     def is_loaded(self):
         return self.is_displayed(*self.INVENTORY_CONTAINER)
 
     def add_product(self):
         self.click(*self.ADD_BACKPACK)
+
+    def add_product_by_id(self, product_id):
+        self.click(*self._product_button(product_id, "add"))
+
+    def remove_product_by_id(self, product_id):
+        self.click(*self._product_button(product_id, "remove"))
 
     def go_to_cart(self):
         self.click(*self.CART)

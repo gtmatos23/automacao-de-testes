@@ -11,6 +11,7 @@ class CheckoutPage(BasePage):
     FINISH = (By.ID, "finish")
     SUCCESS_MSG = (By.CLASS_NAME, "complete-header")
     ERROR_MSG = (By.CSS_SELECTOR, "h3[data-test='error']")
+    SUBTOTAL = (By.CLASS_NAME, "summary_subtotal_label")
 
     def fill_form(self, name, last, zip_code):
         self.type(*self.FIRST_NAME, name)
@@ -31,3 +32,6 @@ class CheckoutPage(BasePage):
 
     def get_error_message(self):
         return self.get_text(*self.ERROR_MSG)
+
+    def get_subtotal(self):
+        return float(self.get_text(*self.SUBTOTAL).split("$")[1])
