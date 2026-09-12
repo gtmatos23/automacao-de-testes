@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 
 from .base_page import BasePage
@@ -50,5 +52,21 @@ class InventoryPage(BasePage):
         ]
 
     def get_cart_badge_count(self):
-        badges = self.find_all(*self.CART_BADGE)
-        return int(badges[0].text) if badges else 0
+        badge_count = {"value": 0}
+
+        def read_badge_count(driver):
+            try:
+                badges = driver.find_elements(*self.CART_BADGE)
+                if not badges:
+                    badge_count["value"] = 0
+                    return True
+                badge_text = badges[0].text.strip()
+                if not badge_text:
+                    return False
+                badge_count["value"] = int(badge_text)
+                return True
+            except StaleElementReferenceException:
+                return False
+
+        WebDriverWait(self.driver, self.TIMEOUT).until(read_badge_count)
+        return badge_count["value"]
