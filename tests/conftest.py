@@ -2,11 +2,13 @@ import os
 import pytest
 from tests.fixtures.driver import create_driver
 
+
 @pytest.fixture
 def driver():
     driver_instance = create_driver()
     yield driver_instance
     driver_instance.quit()
+
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
