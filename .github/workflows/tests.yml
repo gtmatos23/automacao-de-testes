@@ -16,10 +16,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.2.2  # ou a tag mais recente v4/v5 do repositório oficial
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5.4.0
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
