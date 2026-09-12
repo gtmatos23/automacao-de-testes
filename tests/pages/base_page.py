@@ -20,6 +20,12 @@ class BasePage:
     def find_all(self, by, value):
         return self.driver.find_elements(by, value)
 
+    def find_all_wait(self, by, value):
+        locator = (by, value)
+        return WebDriverWait(self.driver, self.TIMEOUT).until(
+            EC.presence_of_all_elements_located(locator)
+        )
+
     def click(self, by, value):
         locator = (by, value)
         WebDriverWait(self.driver, self.TIMEOUT).until(

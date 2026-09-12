@@ -38,7 +38,7 @@ class InventoryPage(BasePage):
         Select(self.find(*self.SORT)).select_by_value(value)
 
     def get_product_count(self):
-        return len(self.find_all(*self.PRODUCTS))
+        return len(self.find_all_wait(*self.PRODUCTS))
 
     def get_product_names(self):
         return [product.text for product in self.find_all(*self.PRODUCT_NAMES)]
