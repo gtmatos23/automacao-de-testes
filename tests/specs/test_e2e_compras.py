@@ -14,7 +14,7 @@ def test_compra_com_multiplos_itens_valida_subtotal(driver):
 
     checkout = CheckoutTransaction(driver)
     checkout.run()
-    checkout.fill_form("Alessandro", "QA", "12345")
+    checkout.fill_form("Gustavo", "QA", "12345")
     checkout.continue_checkout()
 
     assert checkout.subtotal() == expected_subtotal

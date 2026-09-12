@@ -24,7 +24,7 @@ def test_checkout_sem_preencher_dados(checkout, driver):
 
 
 def test_checkout_parcial(checkout):
-    checkout.fill_first_name("Alessandro")
+    checkout.fill_first_name("Gustavo")
     checkout.continue_without_data()
 
     assert "Last Name is required" in checkout.error_message()

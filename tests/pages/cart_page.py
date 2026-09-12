@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import WebDriverWait
 from .base_page import BasePage
 
 
@@ -20,10 +22,16 @@ class CartPage(BasePage):
         return len(self.find_all(*self.ITEMS))
 
     def get_item_prices(self):
-        return [
-            float(item.text.replace("$", ""))
-            for item in self.find_all(*self.ITEM_PRICES)
-        ]
+        def read_prices(driver):
+            try:
+                items = driver.find_elements(*self.ITEM_PRICES)
+                if not items:
+                    return False
+                return [float(item.text.replace("$", "")) for item in items]
+            except StaleElementReferenceException:
+                return False
+
+        return WebDriverWait(self.driver, self.TIMEOUT).until(read_prices)
 
     def remove_first_item(self):
         self.find_all(*self.REMOVE_BUTTONS)[0].click()

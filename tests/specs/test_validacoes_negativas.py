@@ -25,8 +25,8 @@ def test_login_com_dados_invalidos(driver, username, password, expected_message)
     "first_name,last_name,postal_code,expected_message",
     [
         ("", "", "", "First Name is required"),
-        ("Alessandro", "", "", "Last Name is required"),
-        ("Alessandro", "QA", "", "Postal Code is required"),
+        ("Gustavo", "", "", "Last Name is required"),
+        ("Gustavo", "QA", "", "Postal Code is required"),
     ],
 )
 def test_checkout_com_campos_obrigatorios_ausentes(
